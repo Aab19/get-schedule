@@ -1,6 +1,6 @@
+import {FlashList} from '@shopify/flash-list'
 import React, {useEffect, useState} from 'react'
 import {ActivityIndicator, Keyboard, SafeAreaView, View} from 'react-native'
-import {FlatList} from 'react-native-gesture-handler'
 import {useDispatch, useSelector} from 'react-redux'
 import {IllustrationTodoEmptyState} from '../../assets/img/illustration'
 import {
@@ -271,9 +271,8 @@ const DetailSchedule = ({navigation: {goBack}, route}) => {
         )}
 
         {listCourse && listCourse.length > 0 && !loadingSchedule && (
-          <View className="flex-1">
-            <FlatList
-              className="px-4 h-full"
+          <View className="flex-1 px-4 h-full">
+            <FlashList
               data={listCourse}
               contentContainerStyle={{paddingBottom: 20}}
               showsVerticalScrollIndicator={false}

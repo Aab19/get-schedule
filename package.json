@@ -16,6 +16,7 @@
     "@react-navigation/native": "^6.0.13",
     "@react-navigation/native-stack": "^6.9.1",
     "@reduxjs/toolkit": "^1.8.6",
+    "@shopify/flash-list": "^1.4.0",
     "axios": "^1.1.2",
     "nativewind": "^2.0.11",
     "react": "18.0.0",

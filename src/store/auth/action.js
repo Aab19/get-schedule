@@ -1,5 +1,4 @@
-import axios from 'axios'
-import {API_TIMEOUT, URL_API} from '../../utils/constant'
+import APICALL from '../../api'
 import {
   dispatchError,
   dispatchLoading,
@@ -10,19 +9,22 @@ export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
 
 export const loginUser = email => {
-  return dispatch => {
+  return async dispatch => {
     dispatchLoading(dispatch, LOGIN)
 
-    axios
-      .post(URL_API + '/checkin', {email: email}, {timeout: API_TIMEOUT})
-      .then(response => {
-        if (response.status == 200) {
-          dispatchSuccess(dispatch, LOGIN, response.data.data)
-        }
+    try {
+      const response = await APICALL('/checkin', {
+        method: 'POST',
+        data: {
+          email: email,
+        },
       })
-      .catch(error => {
-        dispatchError(dispatch, LOGIN, error.message)
-      })
+      if (response.status == 200) {
+        dispatchSuccess(dispatch, LOGIN, response.data.data)
+      }
+    } catch (error) {
+      dispatchError(dispatch, LOGIN, error.message)
+    }
   }
 }
 

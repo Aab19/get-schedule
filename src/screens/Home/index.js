@@ -1,11 +1,6 @@
+import {FlashList} from '@shopify/flash-list'
 import React, {useEffect, useState} from 'react'
-import {
-  ActivityIndicator,
-  FlatList,
-  Keyboard,
-  SafeAreaView,
-  View,
-} from 'react-native'
+import {ActivityIndicator, Keyboard, SafeAreaView, View} from 'react-native'
 import {useDispatch, useSelector} from 'react-redux'
 import {CardBox, CustomModal, Navbar} from '../../components'
 import CustomButton from '../../components/CustomButton'
@@ -197,14 +192,15 @@ const Home = ({navigation: {replace, navigate}}) => {
             className="mt-4"
           />
         ) : (
-          <FlatList
-            className="px-4 mt-2 h-full"
-            data={Object.keys(listSchedule)}
-            numColumns={2}
-            showsVerticalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={renderListSchedule}
-          />
+          <View className="flex-1 px-4 mt-2 h-full">
+            <FlashList
+              data={Object.keys(listSchedule)}
+              numColumns={2}
+              showsVerticalScrollIndicator={false}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderListSchedule}
+            />
+          </View>
         )}
       </SafeAreaView>
     </View>

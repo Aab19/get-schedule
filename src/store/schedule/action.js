@@ -1,5 +1,4 @@
-import axios from 'axios'
-import {API_TIMEOUT, URL_API} from '../../utils/constant'
+import APICALL from '../../api'
 import {
   dispatchError,
   dispatchLoading,
@@ -13,102 +12,102 @@ export const EDIT_SCHEDULE = 'EDIT_SCHEDULE'
 export const DELETE_SCHEDULE = 'DELETE_SCHEDULE'
 
 export const getAllSchedule = email => {
-  return dispatch => {
+  return async dispatch => {
     dispatchLoading(dispatch, GET_ALL_SCHEDULE)
 
-    axios
-      .get(URL_API + `/schedule?email=${email}`, {timeout: API_TIMEOUT})
-      .then(response => {
-        if (response.status == 200) {
-          dispatchSuccess(dispatch, GET_ALL_SCHEDULE, response.data.data)
-        }
+    try {
+      const response = await APICALL(`/schedule?email=${email}`, {
+        method: 'GET',
       })
-      .catch(error => {
-        dispatchError(dispatch, GET_ALL_SCHEDULE, error.message)
-      })
+      if (response.status == 200) {
+        dispatchSuccess(dispatch, GET_ALL_SCHEDULE, response.data.data)
+      }
+    } catch (error) {
+      dispatchError(dispatch, GET_ALL_SCHEDULE, error.message)
+    }
   }
 }
 
 export const addNewSchedule = (email, form, detail = false) => {
-  return dispatch => {
+  return async dispatch => {
     dispatchLoading(dispatch, ADD_SCHEDULE)
 
-    axios
-      .post(URL_API + `/schedule?email=${email}`, form, {
-        timeout: API_TIMEOUT,
+    try {
+      const response = await APICALL(`/schedule?email=${email}`, {
+        method: 'POST',
+        data: form,
       })
-      .then(response => {
-        if (response.status == 201) {
-          let result = {
-            data: response.data.data,
-            detail: detail,
-          }
-          dispatchSuccess(dispatch, ADD_SCHEDULE, result)
+      if (response.status == 201) {
+        let result = {
+          data: response.data.data,
+          detail: detail,
         }
-      })
-      .catch(error => {
-        dispatchError(dispatch, ADD_SCHEDULE, error.message)
-      })
+        dispatchSuccess(dispatch, ADD_SCHEDULE, result)
+      }
+    } catch (error) {
+      dispatchError(dispatch, ADD_SCHEDULE, error.message)
+    }
   }
 }
 
 export const getDetailSchedule = form => {
-  return dispatch => {
+  return async dispatch => {
     dispatchLoading(dispatch, GET_DETAIL_SCHEDULE)
 
-    axios
-      .get(URL_API + `/schedule?email=${form.email}&day=${form.day}`, {
-        timeout: API_TIMEOUT,
-      })
-      .then(response => {
-        if (response.status == 200) {
-          dispatchSuccess(dispatch, GET_DETAIL_SCHEDULE, response.data.data)
-        }
-      })
-      .catch(error => {
-        dispatchError(dispatch, GET_DETAIL_SCHEDULE, error.message)
-      })
+    try {
+      const response = await APICALL(
+        `/schedule?email=${form.email}&day=${form.day}`,
+        {
+          method: 'GET',
+        },
+      )
+      if (response.status == 200) {
+        dispatchSuccess(dispatch, GET_DETAIL_SCHEDULE, response.data.data)
+      }
+    } catch (error) {
+      dispatchError(dispatch, GET_DETAIL_SCHEDULE, error.message)
+    }
   }
 }
 
 export const editSchedule = form => {
-  return dispatch => {
+  return async dispatch => {
     dispatchLoading(dispatch, EDIT_SCHEDULE)
 
-    axios
-      .patch(URL_API + `/schedule?email=${form.email}&id=${form.id}`, form, {
-        timeout: API_TIMEOUT,
-      })
-      .then(response => {
-        if (response.status == 201) {
-          dispatchSuccess(dispatch, EDIT_SCHEDULE, response.data.data)
-        }
-      })
-      .catch(error => {
-        dispatchError(dispatch, EDIT_SCHEDULE, error.message)
-      })
+    try {
+      const response = await APICALL(
+        `/schedule?email=${form.email}&id=${form.id}`,
+        {
+          method: 'PATCH',
+          data: form,
+        },
+      )
+      if (response.status == 201) {
+        dispatchSuccess(dispatch, EDIT_SCHEDULE, response.data.data)
+      }
+    } catch (error) {
+      dispatchError(dispatch, EDIT_SCHEDULE, error.message)
+    }
   }
 }
 
 export const deleteSchedule = (email, id, day) => {
-  return dispatch => {
+  return async dispatch => {
     dispatchLoading(dispatch, DELETE_SCHEDULE)
 
-    axios
-      .delete(URL_API + `/schedule?email=${email}&id=${id}`, {
-        timeout: API_TIMEOUT,
+    try {
+      const response = await APICALL(`/schedule?email=${email}&id=${id}`, {
+        method: 'DELETE',
       })
-      .then(response => {
-        if (response.status == 200) {
-          let result = {
-            id: id,
-            day: day,
-          }
-          dispatchSuccess(dispatch, DELETE_SCHEDULE, result)
+      if (response.status == 200) {
+        let result = {
+          id: id,
+          day: day,
         }
-      })
-      .catch(error => {
-        dispatchError(dispatch, DELETE_SCHEDULE, error.message)
-      })
+        dispatchSuccess(dispatch, DELETE_SCHEDULE, result)
+      }
+    } catch (error) {
+      dispatchError(dispatch, DELETE_SCHEDULE, error.message)
+    }
   }
 }

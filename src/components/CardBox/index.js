@@ -7,7 +7,7 @@ const CardBox = ({value, number, onPress = () => {}}) => {
   return (
     <TouchableOpacity
       activeOpacity={0.7}
-      className={`bg-white justify-between p-4 w-[49%] rounded-[8px] mt-3 ${
+      className={`bg-white justify-between p-4 w-[96%] rounded-[8px] mt-3 ${
         number % 2 == 0 ? '' : 'ml-2'
       }`}
       style={gstyles.boxShadow}
