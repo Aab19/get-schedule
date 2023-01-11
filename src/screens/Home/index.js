@@ -11,9 +11,8 @@ import {gstyles, theme} from '../../utils/styles'
 const Home = ({navigation: {replace, navigate}}) => {
   const dispatch = useDispatch()
   const {dataLogin} = useSelector(state => state.Auth)
-  const {scheduleCounter, loadingSchedule, errorSchedule} = useSelector(
-    state => state.Schedule,
-  )
+  const {scheduleCounter, successAddSchedule, loadingSchedule, errorSchedule} =
+    useSelector(state => state.Schedule)
   const [userData, setUserData] = useState(dataLogin)
   const [listSchedule, setListSchedule] = useState(scheduleCounter)
   const [showModal, setShowModal] = useState(false)
@@ -43,7 +42,7 @@ const Home = ({navigation: {replace, navigate}}) => {
     if (scheduleCounter) {
       setListSchedule(scheduleCounter)
     }
-  }, [scheduleCounter, errorSchedule])
+  }, [scheduleCounter, successAddSchedule, errorSchedule])
 
   const handleOnChange = (text, input) => {
     setInputs(prevState => ({...prevState, [input]: text}))
@@ -195,6 +194,7 @@ const Home = ({navigation: {replace, navigate}}) => {
           <View className="flex-1 px-4 mt-2 h-full">
             <FlashList
               data={Object.keys(listSchedule)}
+              estimatedItemSize={100}
               numColumns={2}
               showsVerticalScrollIndicator={false}
               keyExtractor={(item, index) => index.toString()}

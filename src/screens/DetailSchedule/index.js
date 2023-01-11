@@ -274,6 +274,8 @@ const DetailSchedule = ({navigation: {goBack}, route}) => {
           <View className="flex-1 px-4 h-full">
             <FlashList
               data={listCourse}
+              extraData={successEditSchedule}
+              estimatedItemSize={100}
               contentContainerStyle={{paddingBottom: 20}}
               showsVerticalScrollIndicator={false}
               keyExtractor={(item, index) => index.toString()}

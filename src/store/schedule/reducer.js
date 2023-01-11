@@ -57,6 +57,7 @@ const scheduleReducer = (state = initialState, action) => {
       }
     case ADD_SCHEDULE:
       if (action.payload && action.payload.data.data) {
+        state['successAddSchedule'] = true
         switch (action.payload.data.data.day) {
           case 'monday':
             state['scheduleCounter'].monday =
@@ -94,15 +95,17 @@ const scheduleReducer = (state = initialState, action) => {
             }
             break
         }
+      } else {
+        state['successAddSchedule'] = false
       }
       return {
         ...state,
         loadingSchedule: action.payload.loading,
-        successAddSchedule: true,
         errorSchedule: action.payload.error,
       }
     case EDIT_SCHEDULE:
       if (action.payload && action.payload.data) {
+        state['successEditSchedule'] = true
         state['dataSchedule'].map((val, index) => {
           if (val.id == action.payload.data.id) {
             state['dataSchedule'][index].title = action.payload.data.title
@@ -110,16 +113,18 @@ const scheduleReducer = (state = initialState, action) => {
               action.payload.data.updatedAt
           }
         })
+      } else {
+        state['successEditSchedule'] = false
       }
       return {
         ...state,
         loading: action.payload.loading,
-        successEditSchedule: true,
         errorSchedule: action.payload.error,
       }
     case DELETE_SCHEDULE:
       let result
       if (action.payload && action.payload.data) {
+        state['successDeleteSchedule'] = true
         result = state['dataSchedule'].filter(val => {
           return val.id !== action.payload.data.id
         })
@@ -146,11 +151,12 @@ const scheduleReducer = (state = initialState, action) => {
             break
         }
         state['dataSchedule'] = result
+      } else {
+        state['successDeleteSchedule'] = false
       }
       return {
         ...state,
         loading: action.payload.loading,
-        successDeleteSchedule: true,
         errorSchedule: action.payload.error,
       }
     default:
